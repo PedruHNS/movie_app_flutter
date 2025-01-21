@@ -9,39 +9,64 @@ class ButtonCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 77),
-      child: Container(
-        height: 50,
-        decoration: BoxDecoration(
-            color: Color(0xFFcc82ff),
+    // return InkWell(
+    //   onTap: onTap,
+    //   child: Ink(
+    //       decoration: BoxDecoration(
+    //           color: Color(0xFFcc82ff),
+    //           borderRadius: BorderRadius.circular(32),
+    //           boxShadow: const [
+    //             BoxShadow(
+    //               color: Colors.black,
+    //               blurRadius: 5.0,
+    //             ),
+    //           ]),
+    //       child: Padding(
+    //         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+    //         child: Row(
+    //           mainAxisAlignment: icon != null
+    //               ? MainAxisAlignment.spaceEvenly
+    //               : MainAxisAlignment.center,
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             Text(
+    //               text,
+    //               style: TextStyle(
+    //                   fontSize: 24,
+    //                   color: Color(0xFF7100cd),
+    //                   fontWeight: FontWeight.bold),
+    //             ),
+    //             icon != null
+    //                 ? Icon(icon, color: Color(0xFF7100cd))
+    //                 : SizedBox.shrink()
+    //           ],
+    //         ),
+    //       )),
+    // );
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color(0xFFcc82ff),
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(32),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black,
-                blurRadius: 5.0,
-              ),
-            ]),
-        child: InkWell(
-            onTap: onTap,
-            child: Row(
-              mainAxisAlignment: icon != null
-                  ? MainAxisAlignment.spaceEvenly
-                  : MainAxisAlignment.center,
-              children: [
-                Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: Color(0xFF7100cd),
-                      fontWeight: FontWeight.bold),
-                ),
-                icon != null
-                    ? Icon(icon, color: Color(0xFF7100cd))
-                    : SizedBox.shrink()
-              ],
-            )),
-      ),
-    );
+          ),
+          shadowColor: Colors.black,
+          elevation: 5.0,
+        ),
+        onPressed: onTap,
+        iconAlignment: IconAlignment.start,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(text,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF7100cd))),
+            icon != null
+                ? Icon(icon, color: Color(0xFF7100cd))
+                : SizedBox.shrink(),
+          ],
+        ));
   }
 }

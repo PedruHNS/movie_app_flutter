@@ -4,7 +4,7 @@ class CardMovieWidget extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String releaseDate;
-  
+
   const CardMovieWidget(
       {super.key,
       required this.imageUrl,
@@ -14,7 +14,7 @@ class CardMovieWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

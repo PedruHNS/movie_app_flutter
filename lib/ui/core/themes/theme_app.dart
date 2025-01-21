@@ -4,11 +4,10 @@ class ThemeApp {
   static ThemeData get themeData {
     return ThemeData(
       useMaterial3: true,
+      brightness: Brightness.dark,
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: Color(0xFF7100cd),
-        unselectedItemColor: Color(0xFFcc82ff),
-        selectedItemColor: Colors.black,
-        type: BottomNavigationBarType.fixed,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFF7100cd),
         showUnselectedLabels: false,
         showSelectedLabels: true,
         selectedIconTheme: IconThemeData(size: 30),

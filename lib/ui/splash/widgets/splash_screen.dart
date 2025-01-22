@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+
 import 'package:movie_db/routing/routes.dart';
 import 'package:movie_db/ui/core/widgets/button_custom.dart';
 
@@ -37,8 +38,9 @@ class SplashScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   )),
               ButtonCustom(
-                onTap: () {
+                onTap: () async {
                   // GoRouter.of(context).pushReplacement('/home');
+
                   context.pushReplacement(Routes.home);
                 },
                 text: 'Quero começar!',

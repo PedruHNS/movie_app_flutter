@@ -40,7 +40,6 @@ class SplashScreen extends StatelessWidget {
               ButtonCustom(
                 onTap: () async {
                   // GoRouter.of(context).pushReplacement('/home');
-
                   context.pushReplacement(Routes.home);
                 },
                 text: 'Quero começar!',

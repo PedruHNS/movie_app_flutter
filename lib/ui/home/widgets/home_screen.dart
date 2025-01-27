@@ -3,8 +3,8 @@ import 'package:movie_db/ui/home/view_model/home_vm.dart';
 import 'package:signals/signals_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeVm controller = HomeVm();
-  HomeScreen({super.key});
+  final HomeVm controller;
+  const HomeScreen({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

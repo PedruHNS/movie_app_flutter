@@ -1,36 +1,40 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
-import 'package:movie_db/data/models/movie_model.dart';
-import 'package:movie_db/utils/constants.dart';
+import 'package:movie_db/data/models/movie_card_model.dart';
+import 'package:movie_db/data/models/movie_detail_model.dart';
+import 'package:movie_db/data/services/movies_service.dart';
+
 import 'package:movie_db/utils/result.dart';
 
 import './movies_repository.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
-  final dio = Dio();
-  @override
-  Future<Result<List<MovieModel>>> getPopularMovies() async {
-    try {
-      final result = await dio.get(
-        Constants.getPopular(),
-        options: Options(
-          headers: {
-            'accept': 'application/json',
-            'authorization':
-                'Bearer '
-          },
-        ),
-      );
-      log('Response: ${result.data}');
+  final MoviesService _moviesService;
 
-      final results = result.data['results'] as List;
-      final List<MovieModel> movies = results.map((e) {
-        return MovieModel.fromMap(e);
-      }).toList();
-      return Result.success(movies);
+  MoviesRepositoryImpl({required MoviesService movieService})
+      : _moviesService = movieService;
+  @override
+  Future<Result<List<MovieCardModel>>> getPopularMovies() async {
+    try {
+      final result = await _moviesService.getPopularMoviesAPI();
+
+      log('result: $result');
+      return switch (result) {
+        Success<List<MovieCardModel>>() => Result.success(result.value),
+        Error<List<MovieCardModel>>() => Result.error(result.error),
+      };
     } on Exception catch (e) {
       return Result.error(e);
     }
+  }
+
+  @override
+  Future<Result<MovieDetailModel>> getMovieDetails(int id) async {
+    final result = await _moviesService.getMovieDetailsAPI(id);
+
+    return switch (result) {
+      Success<MovieDetailModel>() => Result.success(result.value),
+      Error<MovieDetailModel>() => Result.error(result.error),
+    };
   }
 }

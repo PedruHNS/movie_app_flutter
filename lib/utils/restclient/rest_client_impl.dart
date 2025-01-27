@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movie_db/utils/constants.dart';
 import 'package:movie_db/utils/restclient/rest_client_response.dart';
 
@@ -8,10 +9,13 @@ class RestClientImpl implements RestClient {
   late final Dio _dio;
 
   final _baseOptions = BaseOptions(
-      baseUrl: Constants.getBaseUrl(),
+      baseUrl: Constants.getBaseUrl,
       connectTimeout: const Duration(milliseconds: 60000),
       receiveTimeout: const Duration(milliseconds: 60000),
-      headers: {'accept': 'application/json', 'authorization': 'Bearer chave'});
+      headers: {
+        'accept': 'application/json',
+        'authorization': 'Bearer ${dotenv.env['API_KEY']}'
+      });
 
   RestClientImpl() {
     _dio = Dio(_baseOptions);

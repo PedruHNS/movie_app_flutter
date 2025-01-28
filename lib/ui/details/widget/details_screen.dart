@@ -68,6 +68,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                             ),
                             SliverToBoxAdapter(
+                              child: Row(
+                                children: List.generate(
+                                    widget._controller.movie!.genres.length,
+                                    (index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(left: 16),
+                                    child: Chip(
+                                      label: Text(widget._controller.movie!
+                                          .genres[index].name),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ),
+                            SliverToBoxAdapter(
                                 child: Padding(
                               padding: const EdgeInsets.only(
                                   left: 16, right: 16, top: 10, bottom: 0),

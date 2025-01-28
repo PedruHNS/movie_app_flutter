@@ -22,17 +22,11 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: Stack(
-          children: [
-            // Watch((context) {
-            //   return controller.page[controller.selectedScreenIndex.value];
-            // }),
-            CustomScrollView(slivers: [
-              
-            ]),
-
-            Watch((context) {
-              return BottomNav(
+        child: Watch((context) {
+          return Stack(
+            children: [
+              controller.page[controller.selectedScreenIndex.value],
+              BottomNav(
                   itemSelected: controller.selectedScreenIndex.value,
                   items: [
                     MenuItem(icon: MdiIcons.movie),
@@ -40,10 +34,10 @@ class HomeScreen extends StatelessWidget {
                     MenuItem(icon: MdiIcons.videoVintage),
                     MenuItem(icon: MdiIcons.heart),
                   ],
-                  onItemTap: controller.onTapScreen);
-            }),
-          ],
-        ),
+                  onItemTap: controller.onTapScreen),
+            ],
+          );
+        }),
       ),
     );
   }

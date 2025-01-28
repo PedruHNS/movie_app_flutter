@@ -68,7 +68,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                             ),
                             SliverToBoxAdapter(
-                              child: Row(
+                              child: Wrap(
                                 children: List.generate(
                                     widget._controller.movie!.genres.length,
                                     (index) {

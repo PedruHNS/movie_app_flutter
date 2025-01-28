@@ -1,6 +1,10 @@
+import 'dart:ui';
+
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/ui/details/view_model/details_vm.dart';
 import 'package:signals/signals_flutter.dart';
+
+import 'package:movie_db/ui/details/view_model/details_vm.dart';
 
 class DetailsScreen extends StatefulWidget {
   final String id;
@@ -27,57 +31,168 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Detalhes'),
-      ),
-      body: Watch((context) {
-        return Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 0, 0, 0),
-                Color(0xFF7100cd),
-              ],
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 0, 0, 0),
+              Color(0xFF7100cd),
+            ],
           ),
-          child: widget._controller.isLoading
+        ),
+        child: Watch((context) {
+          return widget._controller.isLoading
               ? const Center(child: CircularProgressIndicator())
               : Watch((context) {
                   return widget._controller.movie != null
                       ? CustomScrollView(
                           slivers: [
+                            SliverAppBar(
+                              backgroundColor: Colors.transparent,
+                            ),
+                            SliverToBoxAdapter(
+                              child: Padding(
+                                padding: const EdgeInsets.all(18),
+                                child: CardMovieDetail(
+                                  rating: widget._controller.movie!.voteAverage,
+                                  title: widget._controller.movie!.title,
+                                  duration: widget._controller.movie!.runtime,
+                                  date: widget._controller.movie!.releaseDate,
+                                  urlBackDrop:
+                                      widget._controller.movie!.imageBackdrop(),
+                                  urlPoster:
+                                      widget._controller.movie!.imagePoster(),
+                                ),
+                              ),
+                            ),
                             SliverToBoxAdapter(
                                 child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Stack(
+                              padding: const EdgeInsets.only(
+                                  left: 16, right: 16, top: 10, bottom: 0),
+                              child: Column(
                                 children: [
-                                  Container(
-                                    height: 300,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                        colorFilter: ColorFilter.mode(
-                                          Colors.black.withOpacity(0.5),
-                                          BlendMode.dstATop,
-                                        ),
-                                        image: NetworkImage(widget
-                                            ._controller.movie!
-                                            .imageBackdrop()),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
+                                  Text('Sinopse',
+                                      style: const TextStyle(
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w600)),
+                                  const SizedBox(
+                                    height: 8,
                                   ),
+                                  Text(widget._controller.movie!.overview,
+                                      textAlign: TextAlign.justify,
+                                      style: const TextStyle(fontSize: 16)),
                                 ],
                               ),
                             )),
                           ],
                         )
-                      : Center(child: Text(widget._controller.message.value));
-                }),
-        );
-      }),
+                      : Center(
+                          child: Text(widget._controller.message.value,
+                              style: const TextStyle(fontSize: 18)));
+                });
+        }),
+      ),
+    );
+  }
+}
+
+class CardMovieDetail extends StatelessWidget {
+  final String urlBackDrop;
+  final String title;
+  final String date;
+  final String urlPoster;
+  final double rating;
+  final int duration;
+  const CardMovieDetail({
+    super.key,
+    required this.urlBackDrop,
+    required this.urlPoster,
+    required this.title,
+    required this.duration,
+    required this.date,
+    required this.rating,
+  });
+  Color get _getColorRating {
+    if (rating > 7) {
+      return Colors.green;
+    }
+    if (rating > 5) {
+      return Colors.orange;
+    }
+    return Colors.red;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Blur(
+            borderRadius: BorderRadius.circular(10),
+            blur: 2,
+            blurColor: Colors.black,
+            child: SizedBox(
+                height: 400,
+                child: Image.network(urlBackDrop, fit: BoxFit.cover))),
+        Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold)),
+              ),
+              Container(
+                height: 200,
+                width: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: NetworkImage(urlPoster),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8, bottom: 4),
+                child: Text(
+                  'Duração: $duration min',
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4, bottom: 4),
+                child: Text(
+                  'Lançamento: $date',
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: 10,
+          right: 10,
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: _getColorRating,
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  blurRadius: 2,
+                )
+              ],
+            ),
+            child: Center(child: Text(rating.toStringAsFixed(1))),
+          ),
+        )
+      ],
     );
   }
 }

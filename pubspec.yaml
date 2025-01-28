@@ -42,6 +42,7 @@ dependencies:
   dio: ^5.7.0
   flutter_dotenv: ^5.2.1
   flutter_material_design_icons: ^1.1.7447
+  blur: ^4.0.0
 
 dev_dependencies:
   flutter_test:

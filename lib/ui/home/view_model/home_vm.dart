@@ -14,7 +14,7 @@ class HomeVm {
   final List<Widget> _page = [
     PopularScreen(popularVm: getIt<PopularVm>()),
     ReleaseScreen(),
-    SearchScreen(),
+    // SearchScreen(),
     TopRatedScreen(),
     FavoriteScreen(),
   ];

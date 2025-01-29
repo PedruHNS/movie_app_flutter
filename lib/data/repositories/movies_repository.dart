@@ -5,4 +5,5 @@ import 'package:movie_db/utils/result.dart';
 abstract interface class MoviesRepository {
   Future<Result<List<MovieCardModel>>> getPopularMovies();
   Future<Result<MovieDetailModel>> getMovieDetails(int id);
+  Future<Result<List<MovieCardModel>>> searchMovies(String title);
 }

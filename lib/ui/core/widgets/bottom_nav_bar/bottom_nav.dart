@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class BottomNav extends StatelessWidget {
   final int itemSelected;
   final void Function(int) onItemTap;
+  final void Function() onSearchTap;
   final List<MenuItem> items;
   const BottomNav(
       {super.key,
       required this.itemSelected,
       required this.onItemTap,
+      required this.onSearchTap,
       required this.items});
 
   @override
@@ -37,32 +39,69 @@ class BottomNav extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(
-                items.length,
+                items.length +
+                    1, // Gera uma lista de widgets com base no número de itens mais um
                 (index) {
-                  final item = items[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () => onItemTap(index),
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: itemSelected == index
-                              ? Colors.grey[200]
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Icon(
-                          item.icon,
-                          size: itemSelected == index ? 32 : 25,
-                          color: itemSelected == index
-                              ? Colors.black
-                              : Color(0xFF7100cd),
+                  if (index == (items.length ~/ 2)) {
+                    // Verifica se o índice é o ponto médio da lista
+                    return Padding(
+                      padding: const EdgeInsets.all(
+                          8.0), // Adiciona padding ao redor do widget
+                      child: InkWell(
+                        onTap: onSearchTap,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Icon(
+                            Icons.search, // Define o ícone do container
+                            size: 32, // Define o tamanho do ícone
+                            color: Color(0xFF7100cd), // Define a cor do ícone
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    final itemIndex = index > items.length ~/ 2
+                        ? index - 1
+                        : index; // Ajusta o índice do item
+                    final item = items[itemIndex]; // Obtém o item da lista
+                    return Padding(
+                      padding: const EdgeInsets.all(
+                          8.0), // Adiciona padding ao redor do widget
+                      child: InkWell(
+                        onTap: () => onItemTap(
+                            itemIndex), // Define a função a ser chamada ao clicar no widget
+                        child: Container(
+                          width: 50, // Define a largura do container
+                          height: 50, // Define a altura do container
+                          decoration: BoxDecoration(
+                            color: itemSelected == itemIndex
+                                ? Colors.grey[
+                                    200] // Define a cor de fundo se o item estiver selecionado
+                                : Colors
+                                    .transparent, // Define a cor de fundo se o item não estiver selecionado
+                            borderRadius: BorderRadius.circular(
+                                20), // Define o raio da borda do container
+                          ),
+                          child: Icon(
+                            item.icon, // Define o ícone do container
+                            size: itemSelected == itemIndex
+                                ? 32
+                                : 25, // Define o tamanho do ícone com base na seleção
+                            color: itemSelected == itemIndex
+                                ? Colors
+                                    .black // Define a cor do ícone se o item estiver selecionado
+                                : Color(
+                                    0xFF7100cd), // Define a cor do ícone se o item não estiver selecionado
+                          ),
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
             ),

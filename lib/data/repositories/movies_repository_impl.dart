@@ -37,4 +37,16 @@ class MoviesRepositoryImpl implements MoviesRepository {
       Error<MovieDetailModel>() => Result.error(result.error),
     };
   }
+
+  @override
+  Future<Result<List<MovieCardModel>>> searchMovies(String title) async {
+    title = title.replaceAll(' ', '%20');
+
+    final result = await _moviesService.searchMoviesAPI(title);
+
+    return switch (result) {
+      Success<List<MovieCardModel>>() => Result.success(result.value),
+      Error<List<MovieCardModel>>() => Result.error(result.error),
+    };
+  }
 }

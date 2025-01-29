@@ -22,11 +22,12 @@ void setup() {
 
   getIt.registerLazySingleton<MoviesRepository>(
     () => MoviesRepositoryImpl(
-      movieService: getIt(),
+      movieService: getIt<MoviesService>(),
     ),
   );
 
-  getIt.registerLazySingleton<HomeVm>(() => HomeVm());
+  getIt.registerLazySingleton<HomeVm>(
+      () => HomeVm(moviesRepository: getIt<MoviesRepository>()));
 
   getIt.registerFactory<PopularVm>(
     () => PopularVm(getIt<MoviesRepository>()),

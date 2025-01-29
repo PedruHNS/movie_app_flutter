@@ -43,4 +43,21 @@ class MoviesServiceImpl implements MoviesService {
       return Result.error(Exception('reponse invalida!'));
     }
   }
+
+  @override
+  Future<Result<List<MovieCardModel>>> searchMoviesAPI(String title) async {
+    try {
+      final result = await _client.get(Constants.getByNames(title));
+      if (result.statusCode == 200) {
+        final results = result.data['results'] as List;
+        final List<MovieCardModel> movies = results.map((e) {
+          return MovieCardModel.fromMap(e);
+        }).toList();
+        return Result.success(movies);
+      }
+      return Result.error(Exception('reponse invalida!'));
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
 }

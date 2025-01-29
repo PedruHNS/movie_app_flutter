@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +95,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   const SizedBox(
                                     height: 8,
                                   ),
-                                  Text(widget._controller.movie!.overview,
+                                  Text(
+                                      widget._controller.movie!.overview != ""
+                                          ? widget._controller.movie!.overview
+                                          : "Sem descrição",
                                       textAlign: TextAlign.justify,
                                       style: const TextStyle(fontSize: 16)),
                                 ],

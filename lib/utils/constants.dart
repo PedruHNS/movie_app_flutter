@@ -1,13 +1,22 @@
 class Constants {
-  static const String _baseUrl = 'https://api.themoviedb.org/3/movie';
+  //base url
+  static const String _baseUrl = 'https://api.themoviedb.org/3';
   static const String _imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
+  static const String _popular = '/movie/popular';
+  static const String _searchByName = '/search/movie';
+  static const String _trending = '/trending/movie/week';
 
-  static const String _popular = '/popular?language=pt-BR&page=1';
+  //querys
+  static const Map<String, String> _gueryLanguage = {'language': 'pt-BR'};
 
+  //getters
   static String get getPopular => _popular;
   static String get getBaseUrl => _baseUrl;
   static String get getImageUrl => _imageBaseUrl;
-  static String getByNames(String title) =>
-      'https://api.themoviedb.org/3/search/movie?query=$title&include_adult=true&language=pt-BR&page=1';
-  static String details(int id) => '/$id?language=pt-BR';
+  static Map<String, String> get gueryLanguage => _gueryLanguage;
+  static String get getByNames => _searchByName;
+  static String get getTrending => _trending;
+
+  //paths
+  static String details(String id) => '/movie/$id';
 }

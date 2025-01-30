@@ -1,7 +1,7 @@
-
-
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_db/data/models/movie_detail_model.dart';
+import 'package:movie_db/utils/formatter_string.dart';
 import 'package:signals/signals_flutter.dart';
 
 import 'package:movie_db/ui/details/view_model/details_vm.dart';
@@ -58,12 +58,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 child: CardMovieDetail(
                                   rating: widget._controller.movie!.voteAverage,
                                   title: widget._controller.movie!.title,
-                                  duration: widget._controller.movie!.runtime,
-                                  date: widget._controller.movie!.releaseDate,
+                                  duration: Formatter.formatIntToHour(
+                                      widget._controller.movie!.runtime),
+                                  date: Formatter.formatDate(
+                                      widget._controller.movie!.releaseDate),
                                   urlBackDrop:
-                                      widget._controller.movie!.imageBackdrop(),
+                                      widget._controller.movie!.backdropPath,
                                   urlPoster:
-                                      widget._controller.movie!.imagePoster(),
+                                      widget._controller.movie!.posterPath,
                                 ),
                               ),
                             ),
@@ -122,7 +124,7 @@ class CardMovieDetail extends StatelessWidget {
   final String date;
   final String urlPoster;
   final double rating;
-  final int duration;
+  final String duration;
   const CardMovieDetail({
     super.key,
     required this.urlBackDrop,
@@ -177,7 +179,7 @@ class CardMovieDetail extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 4),
                 child: Text(
-                  'Duração: $duration min',
+                  'Duração: $duration',
                   style: const TextStyle(fontSize: 17),
                 ),
               ),

@@ -1,6 +1,5 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:movie_db/utils/formatter_string.dart';
 
 class CardMovieWidget extends StatelessWidget {
   final String imageUrl;
@@ -54,7 +53,7 @@ class CardMovieWidget extends StatelessWidget {
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      'lançamento: $releaseDate',
+                      'lançamento: ${Formatter.formatDate(releaseDate)}',
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 16,

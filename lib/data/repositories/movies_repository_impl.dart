@@ -18,7 +18,6 @@ class MoviesRepositoryImpl implements MoviesRepository {
     try {
       final result = await _moviesService.getPopularMoviesAPI();
 
-      log('result: $result');
       return switch (result) {
         Success<List<MovieCardModel>>() => Result.success(result.value),
         Error<List<MovieCardModel>>() => Result.error(result.error),

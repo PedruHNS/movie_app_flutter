@@ -28,9 +28,9 @@ class MovieDetailModel {
     return MovieDetailModel(
       title: map['title'] ?? '',
       overview: map['overview'] ?? '',
-      posterPath: map['poster_path'] ?? '',
+      posterPath: Constants.getImageUrl + (map['poster_path'] ?? ''),
       runtime: map['runtime']?.toInt() ?? 0,
-      backdropPath: map['backdrop_path'] ?? '',
+      backdropPath: Constants.getImageUrl + (map['backdrop_path'] ?? ''),
       genres: List<GenreModel>.from(
           map['genres']?.map((x) => GenreModel.fromMap(x))),
       releaseDate: map['release_date'] ?? '',
@@ -38,9 +38,6 @@ class MovieDetailModel {
       voteCount: map['vote_count']?.toInt() ?? 0,
     );
   }
-
-  String imagePoster() => Constants.getImageUrl + posterPath;
-  String imageBackdrop() => Constants.getImageUrl + backdropPath;
 
   @override
   String toString() {

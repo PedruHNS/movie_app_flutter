@@ -6,6 +6,7 @@ import 'package:movie_db/data/services/movies_service_impl.dart';
 import 'package:movie_db/ui/details/view_model/details_vm.dart';
 import 'package:movie_db/ui/home/view_model/home_vm.dart';
 import 'package:movie_db/ui/popular/view_model/popular_vm.dart';
+import 'package:movie_db/ui/top_rated/view_model/top_rated_vm.dart';
 import 'package:movie_db/ui/trending/view_model/trending_vm.dart';
 import 'package:movie_db/utils/restclient/rest_client.dart';
 import 'package:movie_db/utils/restclient/rest_client_impl.dart';
@@ -40,6 +41,12 @@ void setup() {
 
   getIt.registerLazySingleton<TrendingVm>(
     () => TrendingVm(
+      moviesRepository: getIt<MoviesRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<TopRatedVm>(
+    () => TopRatedVm(
       moviesRepository: getIt<MoviesRepository>(),
     ),
   );

@@ -30,7 +30,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
       child: Column(
         children: [
           Text(
-            'TENDÊNCIAS da SEMANA',
+            'TENDÊNCIAS DA SEMANA',
             style: TextStyle(
               color: Colors.white,
               fontSize: 24,

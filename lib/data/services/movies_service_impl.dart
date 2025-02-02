@@ -83,4 +83,26 @@ class MoviesServiceImpl implements MoviesService {
       return Result.error(e);
     }
   }
+
+  @override
+  Future<Result<List<MovieCardModel>>> getTopRatedMoviesAPI() async {
+    try {
+      final result = await _client.get(Constants.getTopRated,
+          queryParameters: Constants.gueryLanguage);
+
+      if (result.statusCode == 200) {
+        final results = result.data['results'] as List;
+
+        final topRatedMovieList = results
+            .map<MovieCardModel>((e) => MovieCardModel.fromMap(e))
+            .toList();
+
+        return Result.success(topRatedMovieList);
+      }
+
+      return Result.error(Exception(result.message));
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
 }

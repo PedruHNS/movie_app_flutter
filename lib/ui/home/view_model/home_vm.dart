@@ -5,7 +5,8 @@ import 'package:movie_db/data/repositories/movies_repository.dart';
 import 'package:movie_db/ui/favorite/favorite_screen.dart';
 import 'package:movie_db/ui/popular/view_model/popular_vm.dart';
 import 'package:movie_db/ui/popular/widget/popular_screen.dart';
-import 'package:movie_db/ui/release/release_screen.dart';
+import 'package:movie_db/ui/top_rated/view_model/top_rated_vm.dart';
+import 'package:movie_db/ui/top_rated/widget/top_rated_screen.dart';
 import 'package:movie_db/ui/trending/view_model/trending_vm.dart';
 
 import 'package:movie_db/ui/trending/widget/trending_screen.dart';
@@ -22,7 +23,7 @@ class HomeVm {
   final List<Widget> _page = [
     PopularScreen(popularVm: getIt<PopularVm>()),
     TrendingScreen(trendingVm: getIt<TrendingVm>()),
-    ReleaseScreen(),
+    TopRatedScreen(topRatedVm: getIt<TopRatedVm>()),
     FavoriteScreen(),
   ];
 

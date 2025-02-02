@@ -41,13 +41,23 @@ class MoviesRepositoryImpl implements MoviesRepository {
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),
-      Error<List<MovieCardModel>>() => Result.error(result.error),
+      Error() => Result.error(result.error),
     };
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> getTrendingMovies()async {
-   final result = await _moviesService.getTrendingMoviesAPI();
+  Future<Result<List<MovieCardModel>>> getTrendingMovies() async {
+    final result = await _moviesService.getTrendingMoviesAPI();
+
+    return switch (result) {
+      Success<List<MovieCardModel>>() => Result.success(result.value),
+      Error() => Result.error(result.error),
+    };
+  }
+
+  @override
+  Future<Result<List<MovieCardModel>>> getTopRatedMovies() async {
+    final result = await _moviesService.getTopRatedMoviesAPI();
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),

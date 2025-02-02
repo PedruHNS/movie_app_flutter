@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:movie_db/config/dependencies.dart';
 import 'package:movie_db/data/models/movie_card_model.dart';
 import 'package:movie_db/data/repositories/movies_repository.dart';
@@ -7,8 +6,9 @@ import 'package:movie_db/ui/favorite/favorite_screen.dart';
 import 'package:movie_db/ui/popular/view_model/popular_vm.dart';
 import 'package:movie_db/ui/popular/widget/popular_screen.dart';
 import 'package:movie_db/ui/release/release_screen.dart';
+import 'package:movie_db/ui/trending/view_model/trending_vm.dart';
 
-import 'package:movie_db/ui/top_rated/top_rated_screen.dart';
+import 'package:movie_db/ui/trending/widget/trending_screen.dart';
 import 'package:movie_db/utils/result.dart';
 import 'package:signals/signals.dart';
 
@@ -21,8 +21,8 @@ class HomeVm {
 
   final List<Widget> _page = [
     PopularScreen(popularVm: getIt<PopularVm>()),
+    TrendingScreen(trendingVm: getIt<TrendingVm>()),
     ReleaseScreen(),
-    TopRatedScreen(),
     FavoriteScreen(),
   ];
 

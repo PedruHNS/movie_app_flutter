@@ -65,7 +65,7 @@ class MoviesServiceImpl implements MoviesService {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> gettrendingMoviesAPI() async {
+  Future<Result<List<MovieCardModel>>> getTrendingMoviesAPI() async {
     try {
       final result = await _client.get(Constants.getTrending,
           queryParameters: Constants.gueryLanguage);

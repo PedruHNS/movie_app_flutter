@@ -9,6 +9,7 @@ class PopularVm {
   final movies = Signal(<MovieCardModel>[]);
   final messagem = Signal<String>('');
   final isLoading = Signal<bool>(false);
+  bool get getIsLoading => isLoading.value;
 
   PopularVm(final MoviesRepository moviesRepository)
       : _moviesRepository = moviesRepository;

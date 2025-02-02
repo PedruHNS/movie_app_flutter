@@ -30,7 +30,6 @@ class _PopularScreenState extends State<PopularScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 32, right: 16, bottom: 0, left: 16),
       child: Column(
-        
         children: [
           Text(
             'POPULARES',
@@ -40,31 +39,35 @@ class _PopularScreenState extends State<PopularScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                Watch((context) {
-                  return SliverList.builder(
-                    itemCount: widget._controller.movies.value.length,
-                    itemBuilder: (context, index) {
-                      return CardMovieWidget(
-                        imageUrl: widget._controller.movies.value[index]
-                            .imagePoster(),
-                        title: widget._controller.movies.value[index].title,
-                        releaseDate:
-                            widget._controller.movies.value[index].releaseDate,
-                        onTap: () {
-                          context.push(Routes.details,
-                              extra: widget._controller.movies.value[index].id
-                                  .toString());
-                        },
-                      );
-                    },
-                  );
-                })
-              ],
-            ),
-          ),
+          Watch((context) {
+            return Expanded(
+              child: widget._controller.getIsLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : CustomScrollView(
+                      slivers: [
+                        SliverList.builder(
+                          itemCount: widget._controller.movies.value.length,
+                          itemBuilder: (context, index) {
+                            return CardMovieWidget(
+                              imageUrl: widget._controller.movies.value[index]
+                                  .imagePoster(),
+                              title:
+                                  widget._controller.movies.value[index].title,
+                              releaseDate: widget
+                                  ._controller.movies.value[index].releaseDate,
+                              onTap: () {
+                                context.push(Routes.details,
+                                    extra: widget
+                                        ._controller.movies.value[index].id
+                                        .toString());
+                              },
+                            );
+                          },
+                        )
+                      ],
+                    ),
+            );
+          }),
         ],
       ),
     );

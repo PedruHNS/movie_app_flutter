@@ -15,16 +15,12 @@ class MoviesRepositoryImpl implements MoviesRepository {
       : _moviesService = movieService;
   @override
   Future<Result<List<MovieCardModel>>> getPopularMovies() async {
-    try {
-      final result = await _moviesService.getPopularMoviesAPI();
+    final result = await _moviesService.getPopularMoviesAPI();
 
-      return switch (result) {
-        Success<List<MovieCardModel>>() => Result.success(result.value),
-        Error<List<MovieCardModel>>() => Result.error(result.error),
-      };
-    } on Exception catch (e) {
-      return Result.error(e);
-    }
+    return switch (result) {
+      Success<List<MovieCardModel>>() => Result.success(result.value),
+      Error<List<MovieCardModel>>() => Result.error(result.error),
+    };
   }
 
   @override
@@ -42,6 +38,16 @@ class MoviesRepositoryImpl implements MoviesRepository {
     title = title.replaceAll(' ', '%20');
 
     final result = await _moviesService.searchMoviesAPI(title);
+
+    return switch (result) {
+      Success<List<MovieCardModel>>() => Result.success(result.value),
+      Error<List<MovieCardModel>>() => Result.error(result.error),
+    };
+  }
+
+  @override
+  Future<Result<List<MovieCardModel>>> getTrendingMovies()async {
+   final result = await _moviesService.getTrendingMoviesAPI();
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),

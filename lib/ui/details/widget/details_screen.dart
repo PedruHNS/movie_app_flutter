@@ -1,6 +1,5 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_db/data/models/movie_detail_model.dart';
 import 'package:movie_db/utils/formatter_string.dart';
 import 'package:signals/signals_flutter.dart';
 

@@ -29,23 +29,7 @@ void setup() {
   getIt.registerLazySingleton<HomeVm>(
       () => HomeVm(moviesRepository: getIt<MoviesRepository>()));
 
-  // getIt.registerFactory<PopularVm>(
-  //   () => PopularVm(getIt<MoviesRepository>()),
-  // );
-
   getIt.registerFactory<DetailsVm>(
     () => DetailsVm(getIt<MoviesRepository>()),
   );
-
-  // getIt.registerLazySingleton<TrendingVm>(
-  //   () => TrendingVm(
-  //     moviesRepository: getIt<MoviesRepository>(),
-  //   ),
-  // );
-
-  // getIt.registerLazySingleton<TopRatedVm>(
-  //   () => TopRatedVm(
-  //     moviesRepository: getIt<MoviesRepository>(),
-  //   ),
-  // );
 }

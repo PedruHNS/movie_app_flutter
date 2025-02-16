@@ -1,15 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:movie_db/config/dependencies.dart';
 import 'package:movie_db/data/models/movie_card_model.dart';
 import 'package:movie_db/data/repositories/movies_repository.dart';
-import 'package:movie_db/ui/favorite/favorite_screen.dart';
-import 'package:movie_db/ui/popular/view_model/popular_vm.dart';
-import 'package:movie_db/ui/popular/widget/popular_screen.dart';
-import 'package:movie_db/ui/top_rated/view_model/top_rated_vm.dart';
-import 'package:movie_db/ui/top_rated/widget/top_rated_screen.dart';
-import 'package:movie_db/ui/trending/view_model/trending_vm.dart';
 
-import 'package:movie_db/ui/trending/widget/trending_screen.dart';
 import 'package:movie_db/utils/result.dart';
 import 'package:signals/signals.dart';
 
@@ -20,18 +11,17 @@ class HomeVm {
       : _moviesRepository = moviesRepository;
   final selectedScreenIndex = Signal(0);
 
-  final List<Widget> _page = [
-    PopularScreen(popularVm: getIt<PopularVm>()),
-    TrendingScreen(trendingVm: getIt<TrendingVm>()),
-    TopRatedScreen(topRatedVm: getIt<TopRatedVm>()),
-    FavoriteScreen(),
-  ];
+  final _moviesSearch = signal<List<MovieCardModel>>([]);
+  List<MovieCardModel> get moviesSearch => _moviesSearch.value;
 
-  final _movies = signal<List<MovieCardModel>>([]);
-  List<MovieCardModel> get movies => _movies.value;
+  final _moviesList = signal<List<MovieCardModel>>([]);
+  List<MovieCardModel> get moviesList => _moviesList.value;
+
+  final _titlePage = signal('');
+  String get getTitlePage => _titlePage.value;
+
   final isLoading = signal(false);
-
-  List<Widget> get page => _page;
+  bool get getIsLoading => isLoading.value;
 
   void onTapScreen(int index) {
     selectedScreenIndex.value = index;
@@ -43,13 +33,60 @@ class HomeVm {
 
     switch (result) {
       case Success<List<MovieCardModel>>():
-        _movies.value.clear();
-        _movies.value.addAll(result.value);
+        _moviesSearch.value.clear();
+        _moviesSearch.value.addAll(result.value);
         break;
       case Error():
-        _movies.value.clear();
+        _moviesSearch.value.clear();
         break;
     }
     isLoading.value = false;
   }
+
+  Future<void> fetchPopularMovies() async {
+    isLoading.value = true;
+    _titlePage.value = 'POPULARES';
+    final result = await _moviesRepository.getPopularMovies();
+
+    switch (result) {
+      case Success<List<MovieCardModel>>():
+        _moviesList.value = result.value;
+        break;
+      case Error():
+        result.error;
+    }
+    isLoading.value = false;
+  }
+
+  Future<void> fetchTrendingMovies() async {
+    isLoading.value = true;
+    _titlePage.value = 'TENDÊNCIAS';
+    final result = await _moviesRepository.getTrendingMovies();
+
+    switch (result) {
+      case Success<List<MovieCardModel>>():
+        _moviesList.value = result.value;
+        break;
+      case Error():
+        result.error;
+    }
+    isLoading.value = false;
+  }
+
+  Future<void> fetchTopRatedMovies() async {
+    isLoading.value = true;
+    _titlePage.value = 'MELHORES AVALIADOS';
+    final result = await _moviesRepository.getTopRatedMovies();
+
+    switch (result) {
+      case Success<List<MovieCardModel>>():
+        _moviesList.value = result.value;
+        break;
+      case Error():
+        result.error;
+    }
+    isLoading.value = false;
+  }
+
+  Future<void> fetchFavoriteMovies() async {}
 }

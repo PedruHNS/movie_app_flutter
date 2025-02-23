@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:movie_db/data/models/movie_card_model.dart';
 import 'package:movie_db/data/models/movie_detail_model.dart';
-import 'package:movie_db/data/services/movies_service.dart';
+import 'package:movie_db/data/services/movies_service/movies_service.dart';
 
 import 'package:movie_db/utils/result.dart';
 
-import './movies_repository.dart';
+import 'movies_repository.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesService _moviesService;

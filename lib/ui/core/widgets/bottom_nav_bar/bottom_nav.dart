@@ -45,23 +45,40 @@ class BottomNav extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: controller.fetchPopularMovies,
-                    icon: Icon(MdiIcons.movie),
+                    icon: Icon(
+                      MdiIcons.movie,
+                      color: controller.getTitlePage == 'POPULARES'
+                          ? Color(0xFF7100cd)
+                          : Color.fromARGB(255, 0, 0, 0),
+                    ),
                   ),
                   IconButton(
                     onPressed: controller.fetchTopRatedMovies,
-                    icon: Icon(MdiIcons.movieRoll),
+                    icon: Icon(
+                      MdiIcons.movieRoll,
+                      color: controller.getTitlePage == 'MELHORES AVALIADOS'
+                          ? Color(0xFF7100cd)
+                          : Color.fromARGB(255, 0, 0, 0),
+                    ),
                   ),
                   IconButton(
                     onPressed: onSearchTap,
-                    icon: Icon(MdiIcons.movieSearch),
+                    icon: Icon(MdiIcons.movieSearch,
+                        color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   IconButton(
                     onPressed: controller.fetchTrendingMovies,
-                    icon: Icon(MdiIcons.videoVintage),
+                    icon: Icon(MdiIcons.videoVintage,
+                        color: controller.getTitlePage == 'TENDÊNCIAS'
+                            ? Color(0xFF7100cd)
+                            : Color.fromARGB(255, 0, 0, 0)),
                   ),
                   IconButton(
                     onPressed: controller.fetchFavoriteMovies,
-                    icon: Icon(MdiIcons.heart),
+                    icon: Icon(MdiIcons.heart,
+                        color: controller.getTitlePage == 'FAVORITOS'
+                            ? Color(0xFF7100cd)
+                            : Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ]),
           ),

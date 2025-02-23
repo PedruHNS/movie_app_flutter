@@ -1,5 +1,6 @@
 import 'package:movie_db/data/models/movie_card_model.dart';
-import 'package:movie_db/data/repositories/movies_repository.dart';
+
+import 'package:movie_db/data/repositories/movies_repository/movies_repository.dart';
 
 import 'package:movie_db/utils/result.dart';
 import 'package:signals/signals.dart';
@@ -88,5 +89,10 @@ class HomeVm {
     isLoading.value = false;
   }
 
-  Future<void> fetchFavoriteMovies() async {}
+  Future<void> fetchFavoriteMovies() async {
+    isLoading.value = true;
+    _titlePage.value = 'FAVORITOS';
+    _moviesList.value = [];
+    isLoading.value = false;
+  }
 }

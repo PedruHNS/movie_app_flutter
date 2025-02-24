@@ -40,8 +40,8 @@ class _SearchModalState extends State<SearchMovieModal> {
       ),
       child: Container(
         height: widget.movies.isNotEmpty
-            ? MediaQuery.of(context).size.height * .8
-            : MediaQuery.of(context).size.height * .25,
+            ? MediaQuery.of(context).size.height
+            : MediaQuery.of(context).size.height * .30,
         decoration: const BoxDecoration(
           color: Color(0xFF1c1b1d),
           borderRadius: BorderRadius.only(

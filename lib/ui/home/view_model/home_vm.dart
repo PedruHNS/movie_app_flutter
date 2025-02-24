@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:movie_db/data/models/movie_card_model.dart';
 
 import 'package:movie_db/data/repositories/movies_repository/movies_repository.dart';
@@ -7,10 +9,11 @@ import 'package:signals/signals.dart';
 
 class HomeVm {
   final MoviesRepository _moviesRepository;
+  final textControllerSearch = TextEditingController();
+  final scrollController = ScrollController();
 
   HomeVm({required MoviesRepository moviesRepository})
       : _moviesRepository = moviesRepository;
-  final selectedScreenIndex = Signal(0);
 
   final _moviesSearch = signal<List<MovieCardModel>>([]);
   List<MovieCardModel> get moviesSearch => _moviesSearch.value;
@@ -21,16 +24,35 @@ class HomeVm {
   final _titlePage = signal('');
   String get getTitlePage => _titlePage.value;
 
-  final isLoading = signal(false);
-  bool get getIsLoading => isLoading.value;
+  final _isLoadingMovies = signal(false);
+  bool get getIsLoadingMovies => _isLoadingMovies.value;
 
-  void onTapScreen(int index) {
-    selectedScreenIndex.value = index;
+  final _isLoadingSearch = signal(false);
+  bool get getIsLoadingSearch => _isLoadingSearch.value;
+
+  final obscureBottomNav = signal(true);
+  // bool get obscureBottomNav => _obscureBottomNav.value;
+
+  void dispose() {
+    textControllerSearch.dispose();
+    scrollController.dispose();
   }
 
-  Future<void> searchMovies(String title) async {
-    isLoading.value = true;
-    final result = await _moviesRepository.searchMovies(title);
+  // void disableBottomBar() {
+  //   scrollController.addListener(() {
+  //     if (scrollController.position.userScrollDirection ==
+  //         ScrollDirection.reverse) {
+  //       _obscureBottomNav.value = true;
+  //     } else {
+  //       _obscureBottomNav.value = false;
+  //     }
+  //   });
+  // }
+
+  Future<void> searchMovies() async {
+    _isLoadingSearch.value = true;
+    final result =
+        await _moviesRepository.searchMovies(textControllerSearch.text);
 
     switch (result) {
       case Success<List<MovieCardModel>>():
@@ -41,11 +63,11 @@ class HomeVm {
         _moviesSearch.value.clear();
         break;
     }
-    isLoading.value = false;
+    _isLoadingSearch.value = false;
   }
 
   Future<void> fetchPopularMovies() async {
-    isLoading.value = true;
+    _isLoadingMovies.value = true;
     _titlePage.value = 'POPULARES';
     final result = await _moviesRepository.getPopularMovies();
 
@@ -56,11 +78,11 @@ class HomeVm {
       case Error():
         result.error;
     }
-    isLoading.value = false;
+    _isLoadingMovies.value = false;
   }
 
   Future<void> fetchTrendingMovies() async {
-    isLoading.value = true;
+    _isLoadingMovies.value = true;
     _titlePage.value = 'TENDÊNCIAS';
     final result = await _moviesRepository.getTrendingMovies();
 
@@ -71,11 +93,11 @@ class HomeVm {
       case Error():
         result.error;
     }
-    isLoading.value = false;
+    _isLoadingMovies.value = false;
   }
 
   Future<void> fetchTopRatedMovies() async {
-    isLoading.value = true;
+    _isLoadingMovies.value = true;
     _titlePage.value = 'MELHORES AVALIADOS';
     final result = await _moviesRepository.getTopRatedMovies();
 
@@ -86,13 +108,13 @@ class HomeVm {
       case Error():
         result.error;
     }
-    isLoading.value = false;
+    _isLoadingMovies.value = false;
   }
 
   Future<void> fetchFavoriteMovies() async {
-    isLoading.value = true;
+    _isLoadingMovies.value = true;
     _titlePage.value = 'FAVORITOS';
     _moviesList.value = [];
-    isLoading.value = false;
+    _isLoadingMovies.value = false;
   }
 }

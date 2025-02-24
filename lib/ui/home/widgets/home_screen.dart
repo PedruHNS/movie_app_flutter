@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_db/routing/routes.dart';
 import 'package:movie_db/ui/core/widgets/bottom_nav_bar/bottom_nav.dart';
@@ -16,14 +17,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final textEditingSearch = TextEditingController();
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await widget.controller.fetchPopularMovies();
     });
+
+    widget.controller.scrollController.addListener(() {
+      if (widget.controller.scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        widget.controller.obscureBottomNav.value = true;
+      } else if (widget
+              .controller.scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        widget.controller.obscureBottomNav.value = false;
+      }
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -54,61 +71,37 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontWeight: FontWeight.bold,
                           )),
                       Expanded(
-                          child: widget.controller.getIsLoading
-                              ? Center(child: CircularProgressIndicator())
-                              : CustomScrollView(slivers: [
+                        child: widget.controller.getIsLoadingMovies
+                            ? Center(child: CircularProgressIndicator())
+                            : CustomScrollView(
+                                controller: widget.controller.scrollController,
+                                slivers: [
                                   SliverList.builder(
                                     itemCount:
                                         widget.controller.moviesList.length,
                                     itemBuilder: (context, index) {
+                                      final movies =
+                                          widget.controller.moviesList[index];
+
                                       return CardMovieWidget(
-                                          imageUrl: widget
-                                              .controller.moviesList[index]
-                                              .imagePoster(),
-                                          title: widget.controller
-                                              .moviesList[index].title,
-                                          releaseDate: widget.controller
-                                              .moviesList[index].releaseDate,
+                                          imageUrl: movies.imagePoster(),
+                                          title: movies.title,
+                                          releaseDate: movies.releaseDate,
                                           onTap: () {
                                             context.push(Routes.details,
-                                                extra: widget.controller
-                                                    .moviesList[index].id
-                                                    .toString());
+                                                extra: movies.id.toString());
                                           });
                                     },
                                   ),
-                                ])),
+                                ],
+                              ),
+                      ),
                     ],
                   ),
                 ),
-                BottomNav(
-                  controller: widget.controller,
-                  onSearchTap: () async {
-                    await showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      useSafeArea: true,
-                      builder: (context) {
-                        return Watch((context) {
-                          return SearchMovieModal(
-                            isLoading: widget.controller.isLoading.value,
-                            movies: widget.controller.moviesSearch,
-                            textEditingController: textEditingSearch,
-                            onComplete: () async {
-                              await widget.controller
-                                  .searchMovies(textEditingSearch.text);
-                            },
-                          );
-                        });
-                      },
-                    ).whenComplete(() {
-                      widget.controller.moviesSearch.clear();
-                      textEditingSearch.clear();
-                    });
-                  },
-                  itemSelected: widget.controller.selectedScreenIndex.value,
-                  onItemTap: widget.controller.onTapScreen,
-                ),
+                !widget.controller.obscureBottomNav.value
+                    ? BottomNav(controller: widget.controller)
+                    : SizedBox.shrink(),
               ],
             );
           }),

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:movie_db/ui/home/view_model/home_vm.dart';
+import 'package:movie_db/ui/home/widgets/search_movie_modal.dart';
+import 'package:signals/signals_flutter.dart';
 
 class BottomNav extends StatelessWidget {
-  final int itemSelected;
-  final void Function(int) onItemTap;
-  final void Function() onSearchTap;
   final HomeVm controller;
 
   const BottomNav({
     super.key,
-    required this.itemSelected,
-    required this.onItemTap,
-    required this.onSearchTap,
     required this.controller,
   });
 
@@ -62,7 +58,29 @@ class BottomNav extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: onSearchTap,
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        useSafeArea: true,
+                        builder: (context) {
+                          return Watch((context) {
+                            return SearchMovieModal(
+                              isLoading: controller.getIsLoadingSearch,
+                              movies: controller.moviesSearch,
+                              textEditingController:
+                                  controller.textControllerSearch,
+                              onComplete: () async {
+                                await controller.searchMovies();
+                              },
+                            );
+                          });
+                        },
+                      ).whenComplete(() {
+                        controller.moviesSearch.clear();
+                        controller.textControllerSearch.clear();
+                      });
+                    },
                     icon: Icon(MdiIcons.movieSearch,
                         color: Color.fromARGB(255, 0, 0, 0)),
                   ),

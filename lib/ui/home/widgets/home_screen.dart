@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_db/routing/routes.dart';
 import 'package:movie_db/ui/core/widgets/bottom_nav_bar/bottom_nav.dart';
 import 'package:movie_db/ui/core/widgets/card_movie_widget.dart';
-import 'package:movie_db/ui/home/widgets/search_movie_modal.dart';
 import 'package:movie_db/ui/home/view_model/home_vm.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -19,22 +17,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await widget.controller.fetchPopularMovies();
     });
-
-    widget.controller.scrollController.addListener(() {
-      if (widget.controller.scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        widget.controller.obscureBottomNav.value = true;
-      } else if (widget
-              .controller.scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        widget.controller.obscureBottomNav.value = false;
-      }
-    });
-
-    super.initState();
+    widget.controller.disableBottomBar();
   }
 
   @override
@@ -58,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          child: Watch((context) {
+          child: Watch((_) {
             return Stack(
               children: [
                 Ink(
@@ -99,9 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                !widget.controller.obscureBottomNav.value
-                    ? BottomNav(controller: widget.controller)
-                    : SizedBox.shrink(),
+                Visibility(
+                  visible: widget.controller.showBottomNav,
+                  child: BottomNav(controller: widget.controller),
+                ),
               ],
             );
           }),

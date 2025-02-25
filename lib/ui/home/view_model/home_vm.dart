@@ -30,24 +30,24 @@ class HomeVm {
   final _isLoadingSearch = signal(false);
   bool get getIsLoadingSearch => _isLoadingSearch.value;
 
-  final obscureBottomNav = signal(true);
-  // bool get obscureBottomNav => _obscureBottomNav.value;
+  final _showBottomNav = signal(true);
+  bool get showBottomNav => _showBottomNav.value;
 
   void dispose() {
     textControllerSearch.dispose();
     scrollController.dispose();
   }
 
-  // void disableBottomBar() {
-  //   scrollController.addListener(() {
-  //     if (scrollController.position.userScrollDirection ==
-  //         ScrollDirection.reverse) {
-  //       _obscureBottomNav.value = true;
-  //     } else {
-  //       _obscureBottomNav.value = false;
-  //     }
-  //   });
-  // }
+  void disableBottomBar() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        _showBottomNav.value = false;
+      } else {
+        _showBottomNav.value = true;
+      }
+    });
+  }
 
   Future<void> searchMovies() async {
     _isLoadingSearch.value = true;

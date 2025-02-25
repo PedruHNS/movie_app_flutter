@@ -15,7 +15,7 @@ class MoviesServiceImpl implements MoviesService {
   Future<Result<List<MovieCardModel>>> getPopularMoviesAPI() async {
     try {
       final result = await _client.get(Constants.getPopular,
-          queryParameters: Constants.gueryLanguage);
+          queryParameters: Constants.gueryLanguage());
 
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
@@ -34,7 +34,7 @@ class MoviesServiceImpl implements MoviesService {
   Future<Result<MovieDetailModel>> getMovieDetailsAPI(int id) async {
     try {
       final result = await _client.get(Constants.details(id.toString()),
-          queryParameters: Constants.gueryLanguage);
+          queryParameters: Constants.gueryLanguage());
 
       if (result.statusCode == 200) {
         final movie = MovieDetailModel.fromMap(result.data);
@@ -50,7 +50,7 @@ class MoviesServiceImpl implements MoviesService {
   Future<Result<List<MovieCardModel>>> searchMoviesAPI(String title) async {
     try {
       final result = await _client.get(Constants.getByNames,
-          queryParameters: {'query': title, ...Constants.gueryLanguage});
+          queryParameters: {'query': title, ...Constants.gueryLanguage()});
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
         final List<MovieCardModel> movies = results.map((e) {
@@ -68,7 +68,7 @@ class MoviesServiceImpl implements MoviesService {
   Future<Result<List<MovieCardModel>>> getTrendingMoviesAPI() async {
     try {
       final result = await _client.get(Constants.getTrending,
-          queryParameters: Constants.gueryLanguage);
+          queryParameters: Constants.gueryLanguage());
 
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
@@ -88,7 +88,7 @@ class MoviesServiceImpl implements MoviesService {
   Future<Result<List<MovieCardModel>>> getTopRatedMoviesAPI() async {
     try {
       final result = await _client.get(Constants.getTopRated,
-          queryParameters: Constants.gueryLanguage);
+          queryParameters: Constants.gueryLanguage());
 
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;

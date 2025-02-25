@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:movie_db/data/models/movie_card_model.dart';
@@ -40,11 +42,24 @@ class HomeVm {
 
   void disableBottomBar() {
     scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-          scrollController.position.maxScrollExtent) {
+      final positionPixels = scrollController.position.pixels;
+      final positionMaxScroll = scrollController.position.maxScrollExtent;
+
+      if (positionPixels >= positionMaxScroll) {
         _showBottomNav.value = false;
       } else {
         _showBottomNav.value = true;
+      }
+    });
+  }
+
+  void nextPage() {
+    scrollController.addListener(() {
+      final positionPixels = scrollController.position.pixels;
+      final positionMaxScroll = scrollController.position.maxScrollExtent;
+
+      if (positionPixels >= positionMaxScroll * .9) {
+        log('log');
       }
     });
   }

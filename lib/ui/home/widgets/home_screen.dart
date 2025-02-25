@@ -22,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
       await widget.controller.fetchPopularMovies();
     });
     widget.controller.disableBottomBar();
+    widget.controller.nextPage();
   }
 
   @override

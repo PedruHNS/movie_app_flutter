@@ -1,1 +1,3 @@
-abstract interface class AuthService {}
+abstract interface class AuthService {
+  Future<bool> isFirstAccess();
+}

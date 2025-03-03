@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:movie_db/data/api/models/movie_card_model.dart';
 import 'package:movie_db/data/api/models/movie_detail_model.dart';
 import 'package:movie_db/data/api/services/movies_service/movies_service.dart';
@@ -14,8 +12,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
   MoviesRepositoryImpl({required MoviesService movieService})
       : _moviesService = movieService;
   @override
-  Future<Result<List<MovieCardModel>>> getPopularMovies() async {
-    final result = await _moviesService.getPopularMoviesAPI();
+  Future<Result<List<MovieCardModel>>> getPopularMovies({int page = 1}) async {
+    final result = await _moviesService.getPopularMoviesAPI(page: page);
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),
@@ -34,10 +32,11 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> searchMovies(String title) async {
+  Future<Result<List<MovieCardModel>>> searchMovies(String title,
+      {int page = 1}) async {
     title = title.replaceAll(' ', '%20');
 
-    final result = await _moviesService.searchMoviesAPI(title);
+    final result = await _moviesService.searchMoviesAPI(title,page: page);
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),
@@ -46,8 +45,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> getTrendingMovies() async {
-    final result = await _moviesService.getTrendingMoviesAPI();
+  Future<Result<List<MovieCardModel>>> getTrendingMovies({int page = 1}) async {
+    final result = await _moviesService.getTrendingMoviesAPI(page: page);
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),
@@ -56,8 +55,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> getTopRatedMovies() async {
-    final result = await _moviesService.getTopRatedMoviesAPI();
+  Future<Result<List<MovieCardModel>>> getTopRatedMovies({int page = 1}) async {
+    final result = await _moviesService.getTopRatedMoviesAPI(page: page);
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),

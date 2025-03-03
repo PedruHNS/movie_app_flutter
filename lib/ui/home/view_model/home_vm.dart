@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:movie_db/data/api/models/movie_card_model.dart';
 
 import 'package:movie_db/data/api/repositories/movies_repository/movies_repository.dart';
@@ -20,7 +20,7 @@ class HomeVm {
   final _moviesSearch = signal<List<MovieCardModel>>([]);
   List<MovieCardModel> get moviesSearch => _moviesSearch.value;
 
-  final _moviesList = signal<List<MovieCardModel>>([]);
+  final _moviesList = ListSignal<MovieCardModel>([]);
   List<MovieCardModel> get moviesList => _moviesList.value;
 
   final _titlePage = signal('');
@@ -34,6 +34,8 @@ class HomeVm {
 
   final _showBottomNav = signal(true);
   bool get showBottomNav => _showBottomNav.value;
+
+  final _pageCurrent = signal<int>(1);
 
   void dispose() {
     textControllerSearch.dispose();
@@ -54,14 +56,31 @@ class HomeVm {
   }
 
   void nextPage() {
-    scrollController.addListener(() {
+    scrollController.addListener(() async {
       final positionPixels = scrollController.position.pixels;
       final positionMaxScroll = scrollController.position.maxScrollExtent;
 
-      if (positionPixels >= positionMaxScroll * .9) {
-        log('log');
+      if (positionPixels >= positionMaxScroll * .9 && !_isLoadingMovies.value) {
+        _pageCurrent.value++;
+        await fetchPopularMovies();
       }
     });
+  }
+
+  Future<void> fetchPopularMovies() async {
+    _isLoadingMovies.value = true;
+    _titlePage.value = 'POPULARES';
+    final result =
+        await _moviesRepository.getPopularMovies(page: _pageCurrent.value);
+
+    switch (result) {
+      case Success<List<MovieCardModel>>():
+        _moviesList.addAll(result.value);
+        break;
+      case Error():
+        result.error;
+    }
+    _isLoadingMovies.value = false;
   }
 
   Future<void> searchMovies() async {
@@ -79,21 +98,6 @@ class HomeVm {
         break;
     }
     _isLoadingSearch.value = false;
-  }
-
-  Future<void> fetchPopularMovies() async {
-    _isLoadingMovies.value = true;
-    _titlePage.value = 'POPULARES';
-    final result = await _moviesRepository.getPopularMovies();
-
-    switch (result) {
-      case Success<List<MovieCardModel>>():
-        _moviesList.value = result.value;
-        break;
-      case Error():
-        result.error;
-    }
-    _isLoadingMovies.value = false;
   }
 
   Future<void> fetchTrendingMovies() async {

@@ -8,5 +8,8 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required AuthService authService})
       : _authService = authService;
 
-
+  @override
+  Future<bool> isFirstAccess() async {
+    return await _authService.isFirstAccess();
+  }
 }

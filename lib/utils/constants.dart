@@ -9,7 +9,7 @@ class Constants {
 
   //querys
   static Map<String, String> gueryLanguage({int page = 1}) {
-    return {'language': 'pt-BR', 'page': page.toString()};
+    return {'language': 'pt-BR'};
   }
 
   //getters

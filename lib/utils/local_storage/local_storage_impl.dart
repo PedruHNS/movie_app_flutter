@@ -4,8 +4,8 @@ import './local_storage.dart';
 
 class LocalStorageImpl implements LocalStorage {
   late final FlutterSecureStorage _secureStorage;
-  LocalStorageImpl(FlutterSecureStorage secureStorage) {
-    _secureStorage = secureStorage;
+  LocalStorageImpl() {
+    _secureStorage = FlutterSecureStorage();
   }
 
   @override

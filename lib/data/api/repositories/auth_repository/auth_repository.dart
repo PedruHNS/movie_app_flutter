@@ -1,1 +1,3 @@
-abstract interface class AuthRepository {}
+abstract interface class AuthRepository {
+  Future<bool> isFirstAccess();
+}

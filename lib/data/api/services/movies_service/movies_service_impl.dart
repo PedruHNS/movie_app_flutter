@@ -12,10 +12,12 @@ class MoviesServiceImpl implements MoviesService {
 
   MoviesServiceImpl({required RestClient client}) : _client = client;
   @override
-  Future<Result<List<MovieCardModel>>> getPopularMoviesAPI() async {
+  Future<Result<List<MovieCardModel>>> getPopularMoviesAPI({int page = 1}) async {
     try {
-      final result = await _client.get(Constants.getPopular,
-          queryParameters: Constants.gueryLanguage());
+      final result = await _client.get(
+        Constants.getPopular,
+        queryParameters: {...Constants.gueryLanguage(), 'page': page},
+      );
 
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
@@ -47,10 +49,14 @@ class MoviesServiceImpl implements MoviesService {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> searchMoviesAPI(String title) async {
+  Future<Result<List<MovieCardModel>>> searchMoviesAPI(String title,
+      {int page = 1}) async {
     try {
-      final result = await _client.get(Constants.getByNames,
-          queryParameters: {'query': title, ...Constants.gueryLanguage()});
+      final result = await _client.get(Constants.getByNames, queryParameters: {
+        'query': title,
+        'page': page,
+        ...Constants.gueryLanguage()
+      });
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
         final List<MovieCardModel> movies = results.map((e) {
@@ -65,10 +71,12 @@ class MoviesServiceImpl implements MoviesService {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> getTrendingMoviesAPI() async {
+  Future<Result<List<MovieCardModel>>> getTrendingMoviesAPI({int page = 1}) async {
     try {
-      final result = await _client.get(Constants.getTrending,
-          queryParameters: Constants.gueryLanguage());
+      final result = await _client.get(Constants.getTrending, queryParameters: {
+        ...Constants.gueryLanguage(),
+        'page': page,
+      });
 
       if (result.statusCode == 200) {
         final results = result.data['results'] as List;
@@ -85,7 +93,7 @@ class MoviesServiceImpl implements MoviesService {
   }
 
   @override
-  Future<Result<List<MovieCardModel>>> getTopRatedMoviesAPI() async {
+  Future<Result<List<MovieCardModel>>> getTopRatedMoviesAPI({int page = 1}) async {
     try {
       final result = await _client.get(Constants.getTopRated,
           queryParameters: Constants.gueryLanguage());

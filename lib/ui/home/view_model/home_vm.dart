@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:movie_db/data/models/movie_card_model.dart';
+import 'package:movie_db/data/api/models/movie_card_model.dart';
 
-import 'package:movie_db/data/repositories/movies_repository/movies_repository.dart';
+import 'package:movie_db/data/api/repositories/movies_repository/movies_repository.dart';
 
 import 'package:movie_db/utils/result.dart';
 import 'package:signals/signals.dart';

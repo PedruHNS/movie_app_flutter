@@ -1,5 +1,5 @@
-import 'package:movie_db/data/models/movie_card_model.dart';
-import 'package:movie_db/data/models/movie_detail_model.dart';
+import 'package:movie_db/data/api/models/movie_card_model.dart';
+import 'package:movie_db/data/api/models/movie_detail_model.dart';
 import 'package:movie_db/utils/constants.dart';
 import 'package:movie_db/utils/restclient/rest_client.dart';
 

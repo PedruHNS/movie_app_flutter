@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:movie_db/data/models/movie_card_model.dart';
-import 'package:movie_db/data/models/movie_detail_model.dart';
-import 'package:movie_db/data/services/movies_service/movies_service.dart';
+import 'package:movie_db/data/api/models/movie_card_model.dart';
+import 'package:movie_db/data/api/models/movie_detail_model.dart';
+import 'package:movie_db/data/api/services/movies_service/movies_service.dart';
 
 import 'package:movie_db/utils/result.dart';
 

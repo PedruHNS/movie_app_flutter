@@ -1,5 +1,5 @@
-import 'package:movie_db/data/models/movie_detail_model.dart';
-import 'package:movie_db/data/repositories/movies_repository/movies_repository.dart';
+import 'package:movie_db/data/api/models/movie_detail_model.dart';
+import 'package:movie_db/data/api/repositories/movies_repository/movies_repository.dart';
 import 'package:signals/signals.dart';
 
 import 'package:movie_db/utils/result.dart';

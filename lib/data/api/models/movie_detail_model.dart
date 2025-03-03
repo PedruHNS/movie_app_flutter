@@ -1,4 +1,4 @@
-import 'package:movie_db/data/models/genre_model.dart';
+import 'package:movie_db/data/api/models/genre_model.dart';
 import 'package:movie_db/utils/constants.dart';
 
 class MovieDetailModel {

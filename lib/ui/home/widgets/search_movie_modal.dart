@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:movie_db/data/models/movie_card_model.dart';
+import 'package:movie_db/data/api/models/movie_card_model.dart';
 import 'package:movie_db/routing/routes.dart';
 import 'package:movie_db/ui/core/widgets/card_movie_widget.dart';
 

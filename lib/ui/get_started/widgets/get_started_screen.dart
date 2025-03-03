@@ -39,7 +39,6 @@ class GetStartedScreen extends StatelessWidget {
                   )),
               ButtonCustom(
                 onTap: () async {
-                  // GoRouter.of(context).pushReplacement('/home');
                   context.pushReplacement(Routes.login);
                 },
                 text: 'Quero começar!',

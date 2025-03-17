@@ -23,8 +23,8 @@ class SplashVm {
   Future<void> init() async {
     await _isFirstAccess();
     await _createRequestToken();
-    final teste = await _localStorage.getData('tokenRequest');
-    log(teste.toString());
+    // final teste = await _localStorage.getData('tokenRequest');
+    // log(teste.toString());
   }
 
   Future<void> _isFirstAccess() async {

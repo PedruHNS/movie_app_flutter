@@ -17,7 +17,7 @@ class ButtonCustom extends StatelessWidget {
           ),
         ),
         onPressed: onTap,
-        iconAlignment: IconAlignment.start,
+        // iconAlignment: IconAlignment.start,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

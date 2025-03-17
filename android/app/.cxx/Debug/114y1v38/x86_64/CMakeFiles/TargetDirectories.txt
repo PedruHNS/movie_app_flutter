@@ -1,0 +1,2 @@
+C:/Users/pedro/Documents/movie_app_flutter/android/app/.cxx/Debug/114y1v38/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/pedro/Documents/movie_app_flutter/android/app/.cxx/Debug/114y1v38/x86_64/CMakeFiles/rebuild_cache.dir

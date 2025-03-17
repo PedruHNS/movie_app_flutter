@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:movie_db/utils/constants.dart';
 import 'package:movie_db/utils/local_storage/local_storage.dart';
 import 'package:movie_db/utils/restclient/rest_client.dart';
@@ -38,9 +40,22 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<void> authWithLogin(String username, String password) {
-    // TODO: implement authWithLogin
-    throw UnimplementedError();
+  Future<Result<bool>> authWithLogin(String username, String password) async {
+    try {
+      final requestToken = await _localStorage.getData('tokenRequest');
+
+      final result = await _client.post(Constants.authWithLogin, body: {
+        'username': 'pedro_siqueira1999',
+        'password': 'PedroHS98!',
+        'request_token': requestToken
+      });
+
+      final statusData = result.data['success'] as bool;
+      log('statusData: $statusData');
+      return Result.success(statusData);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
   }
 
   @override

@@ -6,4 +6,11 @@ abstract interface class RestClient {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   });
+
+  Future<RestClientResponse<T>> post<T>(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    dynamic body,
+  });
 }

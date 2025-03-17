@@ -36,6 +36,18 @@ class RestClientImpl implements RestClient {
     return _dioResponseConverter(result);
   }
 
+  @override
+  Future<RestClientResponse<T>> post<T>(String path,
+      {Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers,
+      body}) async {
+    final result = await _dio.post(path,
+        queryParameters: queryParameters,
+        options: Options(headers: headers),
+        data: body);
+    return _dioResponseConverter(result);
+  }
+
   RestClientResponse<T> _dioResponseConverter<T>(Response<dynamic> result) {
     return RestClientResponse(
       data: result.data,

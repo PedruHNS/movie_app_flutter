@@ -16,8 +16,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
     final result = await _moviesService.getPopularMoviesAPI(page: page);
 
     return switch (result) {
-      Success<List<MovieCardModel>>() => Result.success(result.value),
-      Error<List<MovieCardModel>>() => Result.error(result.error),
+      Success() => Result.success(result.value),
+      Error() => Result.error(result.error),
     };
   }
 
@@ -36,7 +36,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
       {int page = 1}) async {
     title = title.replaceAll(' ', '%20');
 
-    final result = await _moviesService.searchMoviesAPI(title,page: page);
+    final result = await _moviesService.searchMoviesAPI(title, page: page);
 
     return switch (result) {
       Success<List<MovieCardModel>>() => Result.success(result.value),

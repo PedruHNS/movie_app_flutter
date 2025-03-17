@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_db/routing/routes.dart';
 import 'package:movie_db/ui/splash/view_model/splash_vm.dart';
+import 'package:signals/signals_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
   final SplashVm _controler;
@@ -30,11 +31,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
+      body: SizedBox(child: Watch(
+        (context) {
+          return Center(
+            child: widget._controler.getIsLoading
+                ? CircularProgressIndicator()
+                : SizedBox(),
+          );
+        },
+      )),
     );
   }
 }

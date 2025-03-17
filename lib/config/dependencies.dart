@@ -37,6 +37,7 @@ void setup() {
   getIt.registerLazySingleton<SplashVm>(
     () => SplashVm(
       authRepository: getIt<AuthRepository>(),
+      localStorage: getIt<LocalStorage>(),
     ),
   );
 
